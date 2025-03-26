@@ -88,6 +88,7 @@ export class ProductsService {
     const products = await this.productModel
       .find(query)
       .populate('createdBy', 'fullName emailId _id')
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
@@ -135,7 +136,8 @@ export class ProductsService {
     id: string,
     product: ProductAddRequest,
   ): Promise<ProductDetails | null> {
-    const productToUpdate = await this.productModel.findById(id, {
+    const productToUpdate = await this.productModel.findOne({
+      _id: id,
       deletedAt: null,
     });
     if (!productToUpdate) {

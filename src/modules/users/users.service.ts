@@ -91,6 +91,7 @@ export class UsersService {
 
     const users = await this.userModel
       .find(query)
+      .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
 
